@@ -1,4 +1,4 @@
-import Keycloak from 'keycloak-js';
+import Keycloak, { type KeycloakProfile } from 'keycloak-js';
 
 /**
  * Definimos el tipo para el contexto de autenticación. 
@@ -10,6 +10,7 @@ import Keycloak from 'keycloak-js';
 export interface AuthContextType {
     keycloak: Keycloak | null;
     authenticated: boolean;
+    userProfile: KeycloakProfile | null;
     login: () => void;
     logout: () => void;
     // Agregaremos más cosas aquí después, como el perfil del usuario

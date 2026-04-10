@@ -1,8 +1,9 @@
 const HomePage = () => {
     return (
         <div>
-            <h1 className={"text-2xl font-bold"}>Home Page</h1>
-            <p>Welcome to the Fitness App!</p>
+            <h1 className="text-3xl font-bold">Dashboard</h1>
+            <p className="mt-4">Welcome to your fitness dashboard!</p>
+            {/* Aquí irá el contenido principal de la página de inicio */}
         </div>
     );
 };

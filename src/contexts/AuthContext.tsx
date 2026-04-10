@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import keycloak from '../api/keycloakClient';
 import type { AuthContextType } from '../types';
+import type { KeycloakProfile } from 'keycloak-js';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -10,6 +11,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [auth, setAuth] = useState<AuthContextType>({
         keycloak: null,
         authenticated: false,
+        userProfile: null,
         login: () => console.error("Login function called before initialized."),
         logout: () => console.error("Logout function called before initialized."),
     });
@@ -28,10 +30,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                 console.log(`Keycloak initialized. Authenticated: ${authenticated}`);
 
+                let userProfile: KeycloakProfile | null = null;
+                if (authenticated) {
+                    // Si está autenticado, cargamos el perfil
+                    userProfile = await keycloak.loadUserProfile();
+                    console.log("User profile:", userProfile);
+                }
+
                 // Actualizamos el estado con el cliente y las funciones que llaman directamente a la instancia
                 setAuth({
                     keycloak: keycloak,
                     authenticated: authenticated,
+                    userProfile: userProfile,
                     login: () => keycloak.login(),
                     logout: () => keycloak.logout({ redirectUri: window.location.origin }),
                 });
@@ -42,6 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setAuth({
                     keycloak: keycloak,
                     authenticated: false,
+                    userProfile: null,
                     login: () => keycloak.login(),
                     logout: () => keycloak.logout({ redirectUri: window.location.origin }),
                 });

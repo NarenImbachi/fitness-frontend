@@ -1,15 +1,31 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
+import ProtectedRoute from './components/ProtectedRoute'
+import MainLayout from './components/MainLayout'
+import HomePage from './pages/HomePage'
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/login" element={<LoginPage/>} />
+        {/* La página de Login es pública */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Ruta "padre" protegida que usa el MainLayout */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Rutas "hijas" que se renderizarán dentro del <Outlet> de MainLayout */}
+          <Route index element={<HomePage />} />
+          {/* Aquí añadiremos más rutas protegidas en el futuro, como /profile, /activities, etc. */}
+        </Route>
       </Routes>
     </BrowserRouter>
 
