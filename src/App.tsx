@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import MainLayout from './components/MainLayout'
 import HomePage from './pages/HomePage'
+import ActivitiesPage from './pages/ActivitiesPage'
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
         >
           {/* Rutas "hijas" que se renderizarán dentro del <Outlet> de MainLayout */}
           <Route index element={<HomePage />} />
-          {/* Aquí añadiremos más rutas protegidas en el futuro, como /profile, /activities, etc. */}
+          <Route path="activities" element={<ActivitiesPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

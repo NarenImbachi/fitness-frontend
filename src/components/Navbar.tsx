@@ -1,5 +1,5 @@
 import { useAuth } from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const { userProfile, logout } = useAuth();
@@ -10,19 +10,30 @@ const Navbar = () => {
                 <Link to="/" className="text-xl font-bold">
                     FitnessApp
                 </Link>
+
+                {/* Enlaces de navegación */}
+                <div className="space-x-4">
+                    <NavLink to="/" className={({ isActive }) => isActive ? 'text-blue-400' : 'hover:text-blue-300'}>
+                        Home
+                    </NavLink>
+                    <NavLink to="/activities" className={({ isActive }) => isActive ? 'text-blue-400' : 'hover:text-blue-300'}>
+                        Actividades
+                    </NavLink>
+                </div>
+
                 <div className="flex items-center space-x-4">
                     {userProfile ? (
                         <>
-                            <span>Welcome, {userProfile.firstName || userProfile.username}</span>
+                            <span>Bienvenido, {userProfile.firstName || userProfile.username}</span>
                             <button
                                 onClick={logout}
                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                             >
-                                Logout
+                                Cerrar sesión
                             </button>
                         </>
                     ) : (
-                        <span>Loading user...</span>
+                        <span>Cargando usuario...</span>
                     )}
                 </div>
             </div>

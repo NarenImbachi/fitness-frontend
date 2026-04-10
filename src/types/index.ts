@@ -15,3 +15,24 @@ export interface AuthContextType {
     logout: () => void;
     // Agregaremos más cosas aquí después, como el perfil del usuario
 }
+
+export type ActivityType = 'Running' | 'Cycling' | 'Swimming';
+
+export interface Activity {
+    id: string;
+    userId: string;
+    type: ActivityType;
+    duration: number; 
+    caloriesBurned: number;
+    startTime: string; // Usamos string para la fecha/hora en formato ISO
+    additionalMetrics?: Record<string, unknown>; // Opcional, usando Record<string, any> para el Map
+}
+
+// Este es el objeto que enviaremos al backend, coincidiendo con ActivityRequest.java
+export interface ActivityRequest {
+    type: ActivityType;
+    duration: number;
+    caloriesBurned: number;
+    startTime: string; // Se enviará como string ISO
+    additionalMetrics?: Record<string, unknown>;
+}
