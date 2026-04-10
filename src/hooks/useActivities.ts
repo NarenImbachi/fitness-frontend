@@ -1,17 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getActivities } from '../api/services/activityService';
-import type { Activity } from '../types';
+import { toast } from 'react-toastify'; // 2. Importa toast
+import type { Activity, ActivityRequest } from '../types';
+import { createActivity, getActivities } from '../api/services/activityService';
 
 export const useActivities = () => {
-    // Estado para almacenar las actividades
-    const [activities, setActivities] = useState<Activity[]>([]); // Estado para almacenar las actividades
-    // Estado para manejar la carga y los errores
+    const [activities, setActivities] = useState<Activity[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    // Estado para manejar errores
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // 3. Estado para el envío del form
     const [error, setError] = useState<string | null>(null);
 
-    // Función para cargar las actividades desde el backend
     const fetchActivities = useCallback(async () => {
+        // ... (código existente sin cambios)
         try {
             setIsLoading(true);
             setError(null);
@@ -25,11 +24,28 @@ export const useActivities = () => {
         }
     }, []);
 
-    // Cargamos las actividades al montar el componente
     useEffect(() => {
         fetchActivities();
     }, [fetchActivities]);
 
-    // Exponemos los datos, el estado de carga, el error y una función para recargar
-    return { activities, isLoading, error, refetch: fetchActivities };
+    // 4. Nueva función para añadir una actividad
+    const addActivity = async (activityData: Omit<ActivityRequest, 'startTime'>) => {
+        try {
+            setIsSubmitting(true);
+            const newActivityRequest: ActivityRequest = {
+                ...activityData,
+                startTime: new Date().toISOString(), // Añade la fecha y hora actual
+            };
+            await createActivity(newActivityRequest);
+            toast.success('Activity created successfully!');
+            await fetchActivities(); // Recarga la lista de actividades
+        } catch (err) {
+            toast.error('Failed to create activity.');
+            console.error(err);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    return { activities, isLoading, error, refetch: fetchActivities, addActivity, isSubmitting }; // 5. Expone las nuevas funciones/estados
 };

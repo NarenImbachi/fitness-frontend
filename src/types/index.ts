@@ -16,7 +16,7 @@ export interface AuthContextType {
     // Agregaremos más cosas aquí después, como el perfil del usuario
 }
 
-export type ActivityType = 'Running' | 'Cycling' | 'Swimming';
+export type ActivityType = 'RUNNING' | 'CYCLING' | 'SWIMMING' | 'WALKING' | 'YOGA' | 'WEIGHT_TRAINING' | 'CARDIO' | 'HIIT' | 'STRETCHING' | 'OTHER';
 
 export interface Activity {
     id: string;
