@@ -22,7 +22,7 @@ export interface Activity {
     id: string;
     userId: string;
     type: ActivityType;
-    duration: number; 
+    duration: number;
     caloriesBurned: number;
     startTime: string; // Usamos string para la fecha/hora en formato ISO
     additionalMetrics?: Record<string, unknown>; // Opcional, usando Record<string, any> para el Map
@@ -35,4 +35,16 @@ export interface ActivityRequest {
     caloriesBurned: number;
     startTime: string; // Se enviará como string ISO
     additionalMetrics?: Record<string, unknown>;
+}
+
+export interface Recommendation {
+    id: string;
+    activityId: string;
+    userId: string;
+    activityType: string;
+    recommendation: string;
+    improvements: string[];
+    suggestions: string[];
+    safety: string[];
+    createdAt: string;
 }

@@ -1,6 +1,6 @@
-import { useState } from 'react'; import type { ActivityFormData } from '../types/schemas';
+import { useState } from 'react';
+import type { ActivityFormData } from '../types/schemas';
 import type { ActivityType } from '../types';
-
 
 interface ActivityFormProps {
     onSubmit: (data: ActivityFormData) => void;
@@ -9,7 +9,6 @@ interface ActivityFormProps {
 
 const activityTypes: ActivityType[] = ['RUNNING', 'CYCLING', 'SWIMMING', 'WALKING', 'YOGA', 'WEIGHT_TRAINING', 'CARDIO', 'HIIT', 'STRETCHING', 'OTHER'];
 
-// Definimos un tipo para nuestros errores de formulario
 type FormErrors = {
     type?: string;
     duration?: string;
@@ -17,50 +16,63 @@ type FormErrors = {
 };
 
 const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
-    // 1. Usamos useState para cada campo del formulario
     const [type, setType] = useState<ActivityType | ''>('');
     const [duration, setDuration] = useState('');
     const [caloriesBurned, setCaloriesBurned] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
-    // 2. Función de validación manual
-    const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
+    // 1. Función de validación que puede validar todos los campos o uno solo
+    const validate = (fieldName?: keyof ActivityFormData): boolean => {
+        const newErrors: FormErrors = { ...errors };
 
-        if (!type) {
-            newErrors.type = 'Please select an activity type';
+        // Validar tipo
+        if (fieldName === 'type' || !fieldName) {
+            if (!type) newErrors.type = 'Please select an activity type';
+            else delete newErrors.type;
         }
-        const durationNum = Number(duration);
-        if (!duration || isNaN(durationNum) || durationNum <= 0) {
-            newErrors.duration = 'Duration must be a positive number';
+
+        // Validar duración
+        if (fieldName === 'duration' || !fieldName) {
+            const durationNum = Number(duration);
+            if (!duration || isNaN(durationNum) || durationNum <= 0) {
+                newErrors.duration = 'Duration must be a positive number';
+            } else {
+                delete newErrors.duration;
+            }
         }
-        const caloriesNum = Number(caloriesBurned);
-        if (!caloriesBurned || isNaN(caloriesNum) || caloriesNum <= 0) {
-            newErrors.caloriesBurned = 'Calories must be a positive number';
+
+        // Validar calorías
+        if (fieldName === 'caloriesBurned' || !fieldName) {
+            const caloriesNum = Number(caloriesBurned);
+            if (!caloriesBurned || isNaN(caloriesNum) || caloriesNum <= 0) {
+                newErrors.caloriesBurned = 'Calories must be a positive number';
+            } else {
+                delete newErrors.caloriesBurned;
+            }
         }
 
         setErrors(newErrors);
-        // El formulario es válido si el objeto de errores está vacío
         return Object.keys(newErrors).length === 0;
     };
 
-    // 3. Manejador del envío del formulario
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Prevenimos la recarga de la página
-
-        if (validateForm()) {
-            // Si la validación es exitosa, llamamos a la función onSubmit del padre
+        e.preventDefault();
+        if (validate()) { // Llama a la validación para todos los campos
             onSubmit({
-                type: type.toUpperCase() as ActivityType, 
+                type: type as ActivityType,
                 duration: Number(duration),
                 caloriesBurned: Number(caloriesBurned),
             });
-            // Limpiamos el formulario
             setType('');
             setDuration('');
             setCaloriesBurned('');
             setErrors({});
         }
+    };
+
+    // 2. Manejador del evento onBlur
+    const handleBlur = (fieldName: keyof ActivityFormData) => {
+        validate(fieldName); // Llama a la validación solo para el campo que perdió el foco
     };
 
     return (
@@ -73,6 +85,7 @@ const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
                     id="type"
                     value={type}
                     onChange={(e) => setType(e.target.value as ActivityType | '')}
+                    onBlur={() => handleBlur('type')} // 3. Añadimos onBlur
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 >
                     <option value="">Select a type</option>
@@ -88,6 +101,7 @@ const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
                     id="duration"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
+                    onBlur={() => handleBlur('duration')} // 3. Añadimos onBlur
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
                 {errors.duration && <p className="text-red-500 text-xs mt-1">{errors.duration}</p>}
@@ -100,6 +114,7 @@ const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
                     id="caloriesBurned"
                     value={caloriesBurned}
                     onChange={(e) => setCaloriesBurned(e.target.value)}
+                    onBlur={() => handleBlur('caloriesBurned')} // 3. Añadimos onBlur
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
                 {errors.caloriesBurned && <p className="text-red-500 text-xs mt-1">{errors.caloriesBurned}</p>}

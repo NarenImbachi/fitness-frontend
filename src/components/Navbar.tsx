@@ -1,6 +1,9 @@
 import { useAuth } from '../hooks/useAuth';
 import { Link, NavLink } from 'react-router-dom';
 
+const linkClass = "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium";
+const activeLinkClass = "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium";
+
 const Navbar = () => {
     const { userProfile, logout } = useAuth();
 
@@ -18,6 +21,12 @@ const Navbar = () => {
                     </NavLink>
                     <NavLink to="/activities" className={({ isActive }) => isActive ? 'text-blue-400' : 'hover:text-blue-300'}>
                         Actividades
+                    </NavLink>
+                    <NavLink
+                        to="/recommendations"
+                        className={({ isActive }) => isActive ? activeLinkClass : linkClass}
+                    >
+                        Recomendaciones IA
                     </NavLink>
                 </div>
 

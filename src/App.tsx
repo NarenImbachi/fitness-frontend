@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import MainLayout from './components/MainLayout'
 import HomePage from './pages/HomePage'
 import ActivitiesPage from './pages/ActivitiesPage'
+import RecommendationsPage from './pages/RecommendationsPage'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           {/* Rutas "hijas" que se renderizarán dentro del <Outlet> de MainLayout */}
           <Route index element={<HomePage />} />
           <Route path="activities" element={<ActivitiesPage />} />
+          <Route path="recommendations" element={<RecommendationsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
