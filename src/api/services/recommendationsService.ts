@@ -8,6 +8,6 @@ export const getRecommendationsByUser = async (userId: string): Promise<Recommen
 };
 
 export const getRecommendationByActivity = async (activityId: string): Promise<Recommendation> => {
-  const response = await apiClient.get<Recommendation>(`/api/recommendations/activity/${activityId}`);
-  return response.data;
+    const response = await apiClient.get<Recommendation>(`/api/recommendations/activity/${activityId}`);
+    return response.data;
 };

@@ -6,6 +6,7 @@ import MainLayout from './components/MainLayout'
 import HomePage from './pages/HomePage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import RecommendationsPage from './pages/RecommendationsPage'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="activities" element={<ActivitiesPage />} />
           <Route path="recommendations" element={<RecommendationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
