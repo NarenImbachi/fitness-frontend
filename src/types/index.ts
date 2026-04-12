@@ -11,6 +11,7 @@ export interface AuthContextType {
     keycloak: Keycloak | null;
     authenticated: boolean;
     userProfile: KeycloakProfile | null;
+    initialized: boolean;
     login: () => void;
     logout: () => void;
     // Agregaremos más cosas aquí después, como el perfil del usuario

@@ -6,6 +6,11 @@ const apiClient = axios.create({
     baseURL: import.meta.env.VITE_GATEWAY_URL,
 });
 
+// Creamos una instancia separada para llamadas públicas
+const publicApiClient = axios.create({
+  baseURL: 'http://localhost:8080',
+});
+
 // Aquí está la magia: el interceptor de peticiones
 apiClient.interceptors.request.use(
     async (config) => {
@@ -36,4 +41,6 @@ apiClient.interceptors.request.use(
     }
 );
 
+
+export { publicApiClient }; 
 export default apiClient;

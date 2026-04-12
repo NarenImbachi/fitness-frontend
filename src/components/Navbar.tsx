@@ -26,7 +26,7 @@ const Navbar = () => {
                 <div className="flex h-16 items-center justify-between">
                     
                     {/* Izquierda: Logo */}
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                         <Link to="/activities" className="text-white text-xl font-bold">
                             FitnessApp
                         </Link>

@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import RecommendationsPage from './pages/RecommendationsPage'
 import ProfilePage from './pages/ProfilePage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         {/* La página de Login es pública */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Ruta "padre" protegida que usa el MainLayout */}
         <Route

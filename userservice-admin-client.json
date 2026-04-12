@@ -1,0 +1,67 @@
+{
+  "clientId": "userservice-admin-client",
+  "name": "User Service Admin Client",
+  "description": "Este cliente no es para usuarios, sino para que tu userservice pueda autenticarse con Keycloak y obtener permisos de administrador. Es para poder hacer el crud de usuarios",
+  "rootUrl": "",
+  "adminUrl": "",
+  "baseUrl": "",
+  "surrogateAuthRequired": false,
+  "enabled": true,
+  "alwaysDisplayInConsole": false,
+  "clientAuthenticatorType": "client-secret",
+  "secret": "WhpBwlozdFqLP087B9gh888r6a65szU7",
+  "redirectUris": [
+    "/*"
+  ],
+  "webOrigins": [
+    "/*"
+  ],
+  "notBefore": 0,
+  "bearerOnly": false,
+  "consentRequired": false,
+  "standardFlowEnabled": true,
+  "implicitFlowEnabled": false,
+  "directAccessGrantsEnabled": false,
+  "serviceAccountsEnabled": true,
+  "publicClient": false,
+  "frontchannelLogout": true,
+  "protocol": "openid-connect",
+  "attributes": {
+    "realm_client": "false",
+    "logout.confirmation.enabled": "false",
+    "oidc.ciba.grant.enabled": "false",
+    "client.secret.creation.time": "1775942989",
+    "backchannel.logout.session.required": "true",
+    "standard.token.exchange.enabled": "false",
+    "frontchannel.logout.session.required": "true",
+    "oauth2.device.authorization.grant.enabled": "false",
+    "display.on.consent.screen": "false",
+    "use.jwks.url": "false",
+    "backchannel.logout.revoke.offline.tokens": "false",
+    "dpop.bound.access.tokens": "false"
+  },
+  "authenticationFlowBindingOverrides": {},
+  "fullScopeAllowed": true,
+  "nodeReRegistrationTimeout": -1,
+  "defaultClientScopes": [
+    "service_account",
+    "web-origins",
+    "acr",
+    "profile",
+    "roles",
+    "basic",
+    "email"
+  ],
+  "optionalClientScopes": [
+    "address",
+    "phone",
+    "offline_access",
+    "organization",
+    "microprofile-jwt"
+  ],
+  "access": {
+    "view": true,
+    "configure": true,
+    "manage": true
+  }
+}

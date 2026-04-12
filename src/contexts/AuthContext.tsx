@@ -12,6 +12,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         keycloak: null,
         authenticated: false,
         userProfile: null,
+        initialized: false,
         login: () => console.error("Login function called before initialized."),
         logout: () => console.error("Logout function called before initialized."),
     });
@@ -42,6 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     keycloak: keycloak,
                     authenticated: authenticated,
                     userProfile: userProfile,
+                    initialized: true,
                     login: () => keycloak.login(),
                     logout: () => keycloak.logout({ redirectUri: window.location.origin }),
                 });
@@ -53,6 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     keycloak: keycloak,
                     authenticated: false,
                     userProfile: null,
+                    initialized: true,
                     login: () => keycloak.login(),
                     logout: () => keycloak.logout({ redirectUri: window.location.origin }),
                 });
