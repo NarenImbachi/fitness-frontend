@@ -1,4 +1,5 @@
-import { publicApiClient } from "../apiClient";
+import type { UserProfile } from "../../types";
+import apiClient, { publicApiClient } from "../apiClient";
 
 // Añade esta interfaz al principio del archivo
 export interface RegisterData {
@@ -16,6 +17,17 @@ export const registerUser = async (data: RegisterData) => {
     return response.data;
   } catch (error) {
     console.error('Error during user registration:', error);
+    throw error;
+  }
+};
+
+export const getUserProfile = async (): Promise<UserProfile> => {
+  try {
+    // La URL ahora es relativa a la baseURL del apiClient
+    const response = await apiClient.get('/api/users/profile');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
     throw error;
   }
 };

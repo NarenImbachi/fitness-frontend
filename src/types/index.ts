@@ -49,3 +49,14 @@ export interface Recommendation {
     safety: string[];
     createdAt: string;
 }
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  keycloakId: string;
+  createdAt: string; // O Date
+  updatedAt: string; // O Date
+  // Los campos username, birthDate, height, weight se omiten por ahora
+}

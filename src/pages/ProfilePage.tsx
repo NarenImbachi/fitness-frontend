@@ -1,46 +1,42 @@
-import React from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useProfile } from '../hooks/useProfile';
 
-const ProfilePage: React.FC = () => {
-    const { userProfile } = useAuth();
+const ProfilePage = () => {
+    const { profile, isLoading, error } = useProfile();
 
-    if (!userProfile) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500"></div>
-            </div>
-        );
+    if (isLoading) {
+        return <div className="text-center mt-8">Loading profile...</div>;
     }
 
-    const profileItems = [
-        { label: 'Nombre de Usuario', value: userProfile.username },
-        { label: 'Nombre', value: userProfile.firstName },
-        { label: 'Apellido', value: userProfile.lastName },
-        { label: 'Email', value: userProfile.email },
-        { label: 'Email Verificado', value: userProfile.emailVerified ? 'Sí' : 'No', highlight: userProfile.emailVerified },
-        { label: 'ID de Usuario', value: userProfile.id, isId: true },
-    ];
+    if (error) {
+        return <div className="text-center mt-8 text-red-500">Error: {error}</div>;
+    }
+
+    if (!profile) {
+        return <div className="text-center mt-8">No profile data found.</div>;
+    }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                <div className="bg-gray-800 p-6">
-                    <h1 className="text-3xl font-bold text-white text-center">
-                        Perfil de Usuario
-                    </h1>
-                </div>
+        <div className="container mx-auto p-4 mt-8 max-w-2xl">
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="p-6">
-                    <div className="space-y-4">
-                        {profileItems.map((item, index) => (
-                            <div key={index} className="flex flex-col sm:flex-row sm:items-center">
-                                <p className="w-full sm:w-1/3 text-gray-500 font-semibold">{item.label}:</p>
-                                <p
-                                    className={`w-full sm:w-2/3 text-gray-800 ${item.isId ? 'text-xs break-all' : ''} ${item.highlight ? 'text-green-600 font-bold' : ''}`}
-                                >
-                                    {item.value}
-                                </p>
-                            </div>
-                        ))}
+                    <h1 className="text-3xl font-bold text-gray-800 mb-4">User Profile</h1>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                        <div>
+                            <p className="font-semibold">First Name:</p>
+                            <p>{profile.firstName}</p>
+                        </div>
+                        <div>
+                            <p className="font-semibold">Last Name:</p>
+                            <p>{profile.lastName}</p>
+                        </div>
+                        <div className="md:col-span-2">
+                            <p className="font-semibold">Email:</p>
+                            <p>{profile.email}</p>
+                        </div>
+                        <div className="md:col-span-2">
+                            <p className="font-semibold">Member Since:</p>
+                            <p>{new Date(profile.createdAt).toLocaleDateString()}</p>
+                        </div>
                     </div>
                 </div>
             </div>
