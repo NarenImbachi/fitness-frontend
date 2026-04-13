@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import MainLayout from './components/MainLayout'
-import HomePage from './pages/HomePage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import RecommendationsPage from './pages/RecommendationsPage'
 import ProfilePage from './pages/ProfilePage'
 import RegisterPage from './pages/RegisterPage'
+import DashboardPage from './pages/DashboardPage'
 
 function App() {
 
@@ -28,7 +28,7 @@ function App() {
           }
         >
           {/* Rutas "hijas" que se renderizarán dentro del <Outlet> de MainLayout */}
-          <Route index element={<HomePage />} />
+          <Route index element={<DashboardPage />} />
           <Route path="activities" element={<ActivitiesPage />} />
           <Route path="recommendations" element={<RecommendationsPage />} />
           <Route path="profile" element={<ProfilePage />} />

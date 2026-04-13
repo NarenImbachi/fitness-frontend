@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ActivityFormData } from '../types/schemas';
 import type { ActivityType } from '../types';
+import { FiType, FiClock, FiTrendingUp, FiPlusCircle } from 'react-icons/fi';
 
 interface ActivityFormProps {
     onSubmit: (data: ActivityFormData) => void;
@@ -21,34 +22,22 @@ const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
     const [caloriesBurned, setCaloriesBurned] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
-    // 1. Función de validación que puede validar todos los campos o uno solo
     const validate = (fieldName?: keyof ActivityFormData): boolean => {
         const newErrors: FormErrors = { ...errors };
 
-        // Validar tipo
         if (fieldName === 'type' || !fieldName) {
-            if (!type) newErrors.type = 'Please select an activity type';
+            if (!type) newErrors.type = 'Por favor, selecciona un tipo de actividad.';
             else delete newErrors.type;
         }
-
-        // Validar duración
         if (fieldName === 'duration' || !fieldName) {
             const durationNum = Number(duration);
-            if (!duration || isNaN(durationNum) || durationNum <= 0) {
-                newErrors.duration = 'Duration must be a positive number';
-            } else {
-                delete newErrors.duration;
-            }
+            if (!duration || isNaN(durationNum) || durationNum <= 0) newErrors.duration = 'La duración debe ser un número positivo.';
+            else delete newErrors.duration;
         }
-
-        // Validar calorías
         if (fieldName === 'caloriesBurned' || !fieldName) {
             const caloriesNum = Number(caloriesBurned);
-            if (!caloriesBurned || isNaN(caloriesNum) || caloriesNum <= 0) {
-                newErrors.caloriesBurned = 'Calories must be a positive number';
-            } else {
-                delete newErrors.caloriesBurned;
-            }
+            if (!caloriesBurned || isNaN(caloriesNum) || caloriesNum <= 0) newErrors.caloriesBurned = 'Las calorías deben ser un número positivo.';
+            else delete newErrors.caloriesBurned;
         }
 
         setErrors(newErrors);
@@ -57,7 +46,7 @@ const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (validate()) { // Llama a la validación para todos los campos
+        if (validate()) {
             onSubmit({
                 type: type as ActivityType,
                 duration: Number(duration),
@@ -70,58 +59,60 @@ const ActivityForm = ({ onSubmit, isSubmitting }: ActivityFormProps) => {
         }
     };
 
-    // 2. Manejador del evento onBlur
     const handleBlur = (fieldName: keyof ActivityFormData) => {
-        validate(fieldName); // Llama a la validación solo para el campo que perdió el foco
+        validate(fieldName);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-2xl font-bold mb-4">Add New Activity</h2>
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-md space-y-6">
+            <h2 className="text-2xl font-semibold text-slate-700 mb-4">Añadir Nueva Actividad</h2>
 
-            <div>
-                <label htmlFor="type" className="block text-sm font-medium text-gray-700">Activity Type</label>
+            <div className="relative">
+                <FiType className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400" />
                 <select
                     id="type"
                     value={type}
                     onChange={(e) => setType(e.target.value as ActivityType | '')}
-                    onBlur={() => handleBlur('type')} // 3. Añadimos onBlur
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    onBlur={() => handleBlur('type')}
+                    className="pl-10 mt-1 block w-full p-3 border border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 >
-                    <option value="">Select a type</option>
+                    <option value="">Selecciona un tipo</option>
                     {activityTypes.map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
                 {errors.type && <p className="text-red-500 text-xs mt-1">{errors.type}</p>}
             </div>
 
-            <div>
-                <label htmlFor="duration" className="block text-sm font-medium text-gray-700">Duration (minutes)</label>
+            <div className="relative">
+                <FiClock className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400" />
                 <input
                     type="number"
                     id="duration"
+                    placeholder="Duración (minutos)"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
-                    onBlur={() => handleBlur('duration')} // 3. Añadimos onBlur
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    onBlur={() => handleBlur('duration')}
+                    className="pl-10 mt-1 block w-full p-3 border border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 />
                 {errors.duration && <p className="text-red-500 text-xs mt-1">{errors.duration}</p>}
             </div>
 
-            <div>
-                <label htmlFor="caloriesBurned" className="block text-sm font-medium text-gray-700">Calories Burned</label>
+            <div className="relative">
+                <FiTrendingUp className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400" />
                 <input
                     type="number"
                     id="caloriesBurned"
+                    placeholder="Calorías Quemadas"
                     value={caloriesBurned}
                     onChange={(e) => setCaloriesBurned(e.target.value)}
-                    onBlur={() => handleBlur('caloriesBurned')} // 3. Añadimos onBlur
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    onBlur={() => handleBlur('caloriesBurned')}
+                    className="pl-10 mt-1 block w-full p-3 border border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 />
                 {errors.caloriesBurned && <p className="text-red-500 text-xs mt-1">{errors.caloriesBurned}</p>}
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
-                {isSubmitting ? 'Adding...' : 'Add Activity'}
+            <button type="submit" disabled={isSubmitting} className="w-full flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg disabled:bg-slate-400 transition-all duration-300 transform hover:scale-105">
+                <FiPlusCircle className="mr-2" />
+                {isSubmitting ? 'Añadiendo...' : 'Añadir Actividad'}
             </button>
         </form>
     );
