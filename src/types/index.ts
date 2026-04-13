@@ -55,8 +55,19 @@ export interface UserProfile {
   email: string;
   firstName: string;
   lastName: string;
+  username?: string; // Opcional si no siempre viene
   keycloakId: string;
-  createdAt: string; // O Date
-  updatedAt: string; // O Date
-  // Los campos username, birthDate, height, weight se omiten por ahora
+  createdAt: string;
+  updatedAt: string;
+  birthDate?: string; // Los hacemos opcionales para manejar usuarios viejos
+  height?: number;
+  weight?: number;
+}
+
+export interface UpdateUserRequest {
+  firstName?: string;
+  lastName?: string;
+  birthDate?: string;
+  height?: number;
+  weight?: number;
 }

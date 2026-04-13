@@ -1,7 +1,7 @@
-import type { UserProfile } from "../../types";
+import type { UpdateUserRequest, UserProfile } from "../../types";
 import apiClient, { publicApiClient } from "../apiClient";
 
-// Añade esta interfaz al principio del archivo
+
 export interface RegisterData {
   firstName: string;
   lastName: string;
@@ -9,7 +9,7 @@ export interface RegisterData {
   password: string;
 }
 
-// Añade esta nueva función
+
 export const registerUser = async (data: RegisterData) => {
   try {
     // Usamos la instancia pública que no tiene el interceptor de token
@@ -28,6 +28,16 @@ export const getUserProfile = async (): Promise<UserProfile> => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user profile:', error);
+    throw error;
+  }
+};
+
+export const updateUserProfile = async (profileData: UpdateUserRequest): Promise<UserProfile> => {
+  try {
+    const response = await apiClient.put('/api/users/profile', profileData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user profile:', error);
     throw error;
   }
 };
