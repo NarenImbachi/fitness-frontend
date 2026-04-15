@@ -70,7 +70,7 @@ const DashboardPage = () => {
                             color="blue"
                         />
                         <QuickAccessCard
-                            to="/activities/new"
+                            to="/activities"
                             icon={<FiClipboard size={28} />}
                             title="Registrar Actividad"
                             description="Agrega un nuevo entrenamiento."
